@@ -1,12 +1,18 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+const { isEmail } = require('validator');
+const bcrypt = require('bcryptjs');
+
+const AuthorizationError = require('../errors/authorization-err');
+const { AUTH_ERR_MESSAGE } = require('../utils/constants');
 
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
     unique: true,
-    validator: validator.isEmail, message: 'Неверный формат почты',
+    validate: {
+      validator: (v) => isEmail(v), message: 'Некорректный email',
+    },
   },
   password: {
     type: String,
@@ -21,10 +27,26 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.methods.toJSON = function toJSON() {
-  const user = this.toObject();
-  delete user.password;
-  return user;
+// userSchema.methods.toJSON = function toJSON() {
+//   const user = this.toObject();
+//   delete user.password;
+//   return user;
+// };
+
+userSchema.statics.findUserByCredentials = function findUserByCredentials(email, password) {
+  return this.findOne({ email }).select('+password')
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new AuthorizationError(AUTH_ERR_MESSAGE));
+      }
+      return bcrypt.compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            return Promise.reject(new AuthorizationError(AUTH_ERR_MESSAGE));
+          }
+          return user;
+        });
+    });
 };
 
 module.exports = mongoose.model('user', userSchema);

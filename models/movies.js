@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+const { isURL } = require('validator');
+
+const { INVALID_URL_ERR_MESSAGE } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -26,22 +28,22 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(v),
-    }
+      validator: (v) => isURL(v), message: INVALID_URL_ERR_MESSAGE,
+    },
   },
   trailerLink: {
     type: String,
     required: true,
     validate: {
-      validator: (v) => /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(v),
-    }
+      validator: (v) => isURL(v), message: INVALID_URL_ERR_MESSAGE,
+    },
   },
   thumbnail: {
     type: String,
     required: true,
     validate: {
-      validator: (v) => /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/.test(v),
-    }
+      validator: (v) => isURL(v), message: INVALID_URL_ERR_MESSAGE,
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -59,7 +61,7 @@ const movieSchema = new mongoose.Schema({
   nameEN: {
     type: String,
     required: true,
-  }
+  },
 });
 
 module.exports = mongoose.model('movie', movieSchema);
