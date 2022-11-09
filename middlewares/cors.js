@@ -1,10 +1,10 @@
 const allowedCors = [
-  // http://адрес фронтенда
-  // https://адрес фронтенда
+  'http://movies-explorer.nknrw.nomoredomains.icu', // адрес фронтенда
+  'https://movies-explorer.nknrw.nomoredomains.icu', // адрес фронтенда
   'http://localhost:3000',
   'https://localhost:3000',
-  'http://localhost:4000',
-  'https://localhost:4000',
+  'http://localhost:4000', // для разработки на локальном сервере
+  'https://localhost:4000', // для разработки на локальном сервере
 ];
 
 const cors = (req, res, next) => {
