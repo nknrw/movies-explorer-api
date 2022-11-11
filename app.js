@@ -13,6 +13,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(requestLogger);
+
 app.use(limiter);
 app.use(helmet());
 app.use(require('./middlewares/cors'));
@@ -20,8 +22,6 @@ app.use(require('./middlewares/cors'));
 mongoose.connect(DB_URL, {
   family: 4,
 });
-
-app.use(requestLogger);
 
 app.use('/', require('./routes'));
 
