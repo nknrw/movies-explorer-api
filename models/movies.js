@@ -28,30 +28,33 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) => isURL(v), message: INVALID_URL_ERR_MESSAGE,
+      validator: (v) => isURL(v),
+      message: INVALID_URL_ERR_MESSAGE,
     },
   },
   trailerLink: {
     type: String,
     required: true,
     validate: {
-      validator: (v) => isURL(v), message: INVALID_URL_ERR_MESSAGE,
+      validator: (v) => isURL(v),
+      message: INVALID_URL_ERR_MESSAGE,
     },
   },
   thumbnail: {
     type: String,
     required: true,
     validate: {
-      validator: (v) => isURL(v), message: INVALID_URL_ERR_MESSAGE,
+      validator: (v) => isURL(v),
+      message: INVALID_URL_ERR_MESSAGE,
     },
   },
   owner: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.ObjectId,
     ref: 'user',
     required: true,
   },
   movieId: {
-    type: String,
+    type: Number,
     required: true,
   },
   nameRU: {
