@@ -20,7 +20,7 @@ app.use(helmet());
 app.use(require('./middlewares/cors'));
 
 mongoose.connect(DB_URL, {
-  // family: 4,
+  family: 4,
 });
 
 app.use('/', require('./routes'));
