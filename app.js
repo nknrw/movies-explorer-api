@@ -19,9 +19,10 @@ app.use(requestLogger);
 app.use(helmet());
 app.use(require('./middlewares/cors'));
 
-mongoose.connect(DB_URL, {
-  family: 4,
-});
+mongoose.connect(
+  DB_URL,
+  // { family: 4 }, // Расскомментировать для использования IPv4
+);
 
 app.use('/', require('./routes'));
 
