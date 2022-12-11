@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
-// const limiter = require('./middlewares/rateLimiter');
+const limiter = require('./middlewares/rateLimiter');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { PORT, DB_URL } = require('./utils/config');
 
@@ -15,14 +15,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(requestLogger);
 
-// app.use(limiter);
+app.use(limiter);
 app.use(helmet());
 app.use(require('./middlewares/cors'));
 
-mongoose.connect(
-  DB_URL,
-  // { family: 4 }, // Расскомментировать для использования IPv4
-);
+mongoose.connect(DB_URL, {
+  // family: 4,
+});
 
 app.use('/', require('./routes'));
 
